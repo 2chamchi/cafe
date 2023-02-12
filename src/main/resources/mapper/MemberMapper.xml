@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.errand.temp.repository.mybatis.MemberMapper">
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="memberId">
+        insert into member (member_name)
+        values (#{memberName})
+    </insert>
+
+    <update id="update">
+        update member
+        set member_name=#{updateParam.memberName}
+        where member_id = #{memberId}
+    </update>
+
+    <select id="findById" resultType="Member">
+        select member_id, member_name
+        from member
+        where member_id = #{memberId}
+    </select>
+
+    <select id="findAll" resultType="Member">
+        select member_id, member_name
+        from member
+        <where>
+            <if test="memberName != null and memberName != ''">
+                <![CDATA[
+                    and member_name like concat('%', #{memberName}, '%')
+                ]]>
+            </if>
+        </where>
+    </select>
+</mapper>
